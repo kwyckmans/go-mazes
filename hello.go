@@ -21,6 +21,21 @@ func main() {
 
 	fmt.Println(g)
 
+	maze.BinaryTree(*g)
+	fmt.Print(g)
+
+	testGrid := maze.NewGrid(3, 3)
+
+	origin := testGrid.Get(0, 0)
+	connected := testGrid.Get(1, 0)
+	origin.LinkBidirectional(connected)
+
+	fmt.Println(testGrid)
+	// cells := g.GetCells()
+
+	// for k, v := range cells {
+	// 	fmt.Println(k, v)
+	// }
 	// var otherC maze.Cell = maze.Cell{
 	// 	Coordinates: maze.Coordinates{Row: 1, Col: 2},
 	// 	Links:       make(map[maze.Coordinates]struct{}),
