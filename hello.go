@@ -31,6 +31,10 @@ func main() {
 	origin.LinkBidirectional(connected)
 
 	fmt.Println(testGrid)
+
+	sidewinderGrid := maze.NewGrid(50, 50)
+	maze.Sidewinder(*sidewinderGrid)
+	fmt.Println(sidewinderGrid)
 	// cells := g.GetCells()
 
 	// for k, v := range cells {
