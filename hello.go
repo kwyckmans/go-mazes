@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"image/png"
+	"log"
+	"os"
 
 	"github.com/go-mazes/maze"
 )
@@ -9,6 +12,7 @@ import (
 func main() {
 	c := maze.NewCell(1, 2)
 	fmt.Println(c)
+
 	// carray := [10][10]*maze.Cell{}
 
 	// for i := range carray {
@@ -35,6 +39,23 @@ func main() {
 	sidewinderGrid := maze.NewGrid(50, 50)
 	maze.Sidewinder(*sidewinderGrid)
 	fmt.Println(sidewinderGrid)
+
+	f, err := os.Create("test-image.png")
+	if err != nil {
+		log.Fatalln("Failed to create image")
+	}
+
+	// TODO: read up on defer
+	defer f.Close()
+
+	img := maze.ToPNG(10, 500, 500, 1, *sidewinderGrid)
+
+	err = png.Encode(f, img)
+	if err != nil {
+		log.Fatalln("Failed to convert image to png")
+	}
+	log.Println("Generated image")
+
 	// cells := g.GetCells()
 
 	// for k, v := range cells {
