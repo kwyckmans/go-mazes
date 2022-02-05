@@ -1,6 +1,9 @@
 package maze
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 // Cell is a single cell in a maze.
 type Cell struct {
@@ -75,4 +78,30 @@ func (c *Cell) Neighbours() map[*Cell]struct{} {
 	}
 
 	return neighbours
+}
+
+func (c *Cell) Distances() map[*Cell]int {
+	var distances map[*Cell]int = make(map[*Cell]int)
+
+	var frontier []*Cell = []*Cell{c}
+	distances[c] = 0
+
+	for len(frontier) > 0 {
+		newFrontier := []*Cell{}
+
+		for _, cell := range frontier {
+			for linkedCell := range cell.links {
+				_, ok := distances[linkedCell]
+				if !ok {
+					distances[linkedCell] = distances[cell] + 1
+					newFrontier = append(newFrontier, linkedCell)
+					log.Printf("new frontier: %v", newFrontier)
+				}
+			}
+		}
+
+		frontier = newFrontier
+	}
+
+	return distances
 }
