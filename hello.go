@@ -9,6 +9,10 @@ import (
 	"github.com/go-mazes/maze"
 )
 
+func emptyContents(maze.Cell) string {
+	return " "
+}
+
 func main() {
 	c := maze.NewCell(1, 2)
 	fmt.Println(c)
@@ -56,6 +60,13 @@ func main() {
 	}
 	log.Println("Generated image")
 
+	start := g.Get(0, 0)
+	distances := start.Distances()
+	renderer := maze.DistanceRenderer{
+		Distances: distances,
+	}
+	g.ContentRenderer = renderer
+	fmt.Println(g)
 	// cells := g.GetCells()
 
 	// for k, v := range cells {

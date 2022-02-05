@@ -6,14 +6,26 @@ import (
 	"strings"
 )
 
+type ContentRenderer interface {
+	ContentsOf(c *Cell) string
+}
+
+type EmptyRenderer struct {
+}
+
+func (e EmptyRenderer) ContentsOf(c *Cell) string {
+	return " "
+}
+
 type coordinate struct {
 	row, col int
 }
 
 // Grid is a 2D grid of cells that is used to represent a maze.
 type Grid struct {
-	rows, cols int
-	cells      map[coordinate]*Cell
+	rows, cols      int
+	cells           map[coordinate]*Cell
+	ContentRenderer ContentRenderer
 }
 
 // NewGrid creates a new grid with the given number of rows and columns.
@@ -40,11 +52,16 @@ func NewGrid(rows, cols int) *Grid {
 	}
 
 	return &Grid{
-		rows:  rows,
-		cols:  cols,
-		cells: cells,
+		rows:            rows,
+		cols:            cols,
+		cells:           cells,
+		ContentRenderer: EmptyRenderer{},
 	}
 }
+
+// func (g Grid) contentsOf(cell Cell) string {
+// 	return " "
+// }
 
 func (g Grid) String() string {
 	output := "+" + strings.Repeat("---+", g.cols) + "\n"
@@ -54,7 +71,7 @@ func (g Grid) String() string {
 
 		for col := 0; col < g.cols; col++ {
 			cell := g.cells[coordinate{row, col}]
-			body := "   "
+			body := " " + g.ContentRenderer.ContentsOf(cell) + " "
 			east_boundary := ""
 
 			if cell.Linked(cell.east) {
