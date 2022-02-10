@@ -80,7 +80,7 @@ func (c *Cell) Neighbours() map[*Cell]struct{} {
 	return neighbours
 }
 
-func (c *Cell) Distances() map[*Cell]int {
+func (c *Cell) GenerateDistanceMap() map[*Cell]int {
 	var distances map[*Cell]int = make(map[*Cell]int)
 
 	var frontier []*Cell = []*Cell{c}

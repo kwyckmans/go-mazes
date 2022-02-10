@@ -61,21 +61,14 @@ func main() {
 	log.Println("Generated image")
 
 	start := g.Get(0, 0)
-	distances := start.Distances()
-	renderer := maze.DistanceRenderer{
-		Distances: distances,
-	}
+	distanceMap := maze.NewDistanceMap(start, start.GenerateDistanceMap())
+
+	renderer := maze.NewDistanceRenderer(distanceMap)
 	g.ContentRenderer = renderer
 	fmt.Println(g)
-	// cells := g.GetCells()
 
-	// for k, v := range cells {
-	// 	fmt.Println(k, v)
-	// }
-	// var otherC maze.Cell = maze.Cell{
-	// 	Coordinates: maze.Coordinates{Row: 1, Col: 2},
-	// 	Links:       make(map[maze.Coordinates]struct{}),
-	// }
-
-	// fmt.Println(otherC)
+	path := distanceMap.PathTo(g.Get(9, 9))
+	renderer = maze.NewDistanceRenderer(path)
+	g.ContentRenderer = renderer
+	fmt.Println(g)
 }
