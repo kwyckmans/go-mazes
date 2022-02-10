@@ -39,6 +39,18 @@ func (d DistanceMap) PathTo(goal *Cell) DistanceMap {
 	}
 }
 
+func (d DistanceMap) Max() (*Cell, int) {
+	max := 0
+	var maxCell *Cell
+	for cell, distance := range d.distances {
+		if distance > max {
+			max = distance
+			maxCell = cell
+		}
+	}
+	return maxCell, max
+}
+
 // DistanceRenderer is a Renderer that takes a DistanceMap and renders it as an ASCII grid.
 //
 // TODO: See if we can clean-up the connection between DistanceMap, Cell, Grid and renderer. It's a bit odd that
@@ -49,6 +61,8 @@ func (d DistanceMap) PathTo(goal *Cell) DistanceMap {
 //    instead of the other way around. Ideally the grid doesn't know about the distancemap, since for now it doesn't care.
 //    I'd like to just print arbitrary distance maps. The thing is, obviously it's the grids responsability to print itself,
 //    the issue just being that we don't actually print the grid, we just print the distancemap.
+//
+//    Will revisit after I implement the color renderer and I actually have some duplicate code.
 type DistanceRenderer struct {
 	distanceMap DistanceMap
 }

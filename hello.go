@@ -71,4 +71,16 @@ func main() {
 	renderer = maze.NewDistanceRenderer(path)
 	g.ContentRenderer = renderer
 	fmt.Println(g)
+
+	fmt.Println("Calculating longest path")
+	new_start, _ := distanceMap.Max()
+	longestDistancesMap := maze.NewDistanceMap(new_start, new_start.GenerateDistanceMap())
+	goal, _ := longestDistancesMap.Max()
+
+	path = distanceMap.PathTo(goal)
+	// TODO: Keep the renderer immutable, or just should I just allow to modify the distancemap?
+	//   It's not a particularly heavy object
+	renderer = maze.NewDistanceRenderer(path)
+	g.ContentRenderer = renderer
+	fmt.Println(g)
 }
