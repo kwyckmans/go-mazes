@@ -2,7 +2,6 @@ package maze
 
 import (
 	"fmt"
-	"log"
 )
 
 // Cell is a single cell in a maze.
@@ -95,7 +94,6 @@ func (c *Cell) GenerateDistanceMap() map[*Cell]int {
 				if !ok {
 					distances[linkedCell] = distances[cell] + 1
 					newFrontier = append(newFrontier, linkedCell)
-					log.Printf("new frontier: %v", newFrontier)
 				}
 			}
 		}
