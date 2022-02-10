@@ -3,7 +3,7 @@ package maze
 import "testing"
 
 func TestGridNew(t *testing.T) {
-	g := NewGrid(10, 10, EmptyRenderer{})
+	g := NewGrid(10, 10)
 
 	if g.rows != 10 {
 		t.Error("Expected 10, got ", g.rows)
